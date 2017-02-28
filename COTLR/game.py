@@ -196,7 +196,7 @@ class Playfield:
             for spawn in self.respawns[team]:
                 if spawn == turn:
                     self.spawn(team)
-        for unit, direction in actions[1]:
+        for unit, direction in actions[1]: # viewing
             input_info = []
             if direction in (0, 3):
                 multiplier = -1
@@ -215,7 +215,17 @@ class Playfield:
                         if is_wall(cell):
                             ray_casting = False
                         else:
-                            input_info.append(str(cell)) # add other formatting later.
+                            if cell[2]:
+                                flag_status = "1"
+                            elif cell[team][1]:
+                                flag_status = "2"
+                            elif cell[not team][1]:
+                                flag_status = "3"
+                            else:
+                                flag_status = "0"
+                            input_info.append(str(cell[team][0]))
+                            input_info.append(flag_status)
+                            input_info.append(str(cell[not team][0]))
                 if offset != 1:
                     input_info.append("|")
             unit.inform(''.join(input_info))
