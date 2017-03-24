@@ -4,7 +4,7 @@ try:
 except ImportError:
     string = str
 
-    # This is because a contributer wanted it to work in python 2 or something
+    # This is because a contributor wanted it to work in python 2 or something
 
 
 def gen_maze():

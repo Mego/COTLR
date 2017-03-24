@@ -123,9 +123,9 @@ class Playfield:
                 self.maze[unit.y][unit.x][2] = True
 
             elif move[0] == "move":
-                self.maze[unit.y][unit.x][unit.team][0] -= 1
                 step = ((move[1] == 1) - (move[1] == 3), (move[1] == 2) - (move[1] == 0))
                 if not is_wall(self.maze[unit.y + step[1]][unit.x + step[0]]):
+                    self.maze[unit.y][unit.x][unit.team][0] -= 1
                     if unit.carrying:
                         self.maze[unit.y][unit.x][unit.team][1] = False
                     unit.x += step[0]
@@ -161,7 +161,7 @@ class Playfield:
                 for shot in cell_shots:
                     if shot.team != unit.team:
                         if not unit in attacks[(shot.x,shot.y)]:
-                            if not shot.x == unit.x and shot.y == unit.y:
+                            if not (shot.x == unit.x and shot.y == unit.y):
                                 unit.health -= 1
                             else:
                                 unit.health = 0
@@ -186,12 +186,12 @@ class Playfield:
         if len(actions[2]) == 1:
             flag_holder = actions[2][0]
             flag_holder.carrying = True
-            flag_holder.inform("flag get")
+            flag_holder.inform("Flag get")
             self.maze[flag_holder.y][flag_holder.x][2] = False
             self.maze[flag_holder.y][flag_holder.x][flag_holder.team] = True
         else:
             for bot in actions[2]:
-                bot.inform("flag fight")
+                bot.inform("Flag fight")
         for team in (0,1):
             for spawn in self.respawns[team]:
                 if spawn == turn:
